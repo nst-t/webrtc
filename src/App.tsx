@@ -1,30 +1,44 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import './App.css';
+import { useEffect, useRef } from 'react';
+import { ClientSDK, NstrumentaBrowserClient } from 'nstrumenta/dist/browser/client';
+
+class Client extends ClientSDK {
+  private readonly nstClient: NstrumentaBrowserClient;
+  roomName: string = 'room';
+
+  constructor() {
+    super();
+    this.nstClient = new NstrumentaBrowserClient();
+  }
+
+  async apiJoin() {
+    console.log('apiJoin');
+    await this.nstClient.connect();
+    const { offer, peerId } = await this.nstClient.joinWebRTC(this.roomName);
+    const { answer, candidates, user } = await this.join(this.roomName, peerId, offer);
+    user.onCandidate.subscribe((candidate) =>
+      this.nstClient.candidateWebRTC(peerId, this.roomName, candidate)
+    );
+    this.nstClient.answerWebRTC(peerId, this.roomName, answer);
+    candidates.forEach((candidate) =>
+      this.nstClient.candidateWebRTC(peerId, this.roomName, candidate)
+    );
+  }
+}
 
 function App() {
-  const [count, setCount] = useState(0);
+  const clientRef = useRef<Client | null>(null);
 
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </div>
-  );
+  useEffect(() => {
+    async function connectAndJoinWebRTC() {
+      const client = new Client();
+      await client.apiJoin();
+      clientRef.current = new Client();
+    }
+
+    connectAndJoinWebRTC();
+  }, []);
+
+  return <div className="App"></div>;
 }
 
 export default App;
