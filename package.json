@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "start": "vite",
-    "format": "prettier -w ./"
+    "format": "prettier -w ./",
+    "release": "npm run build ; standard-version --release-as patch"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -23,6 +24,7 @@
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react-swc": "^3.0.0",
     "prettier": "^2.8.3",
+    "standard-version": "^9.5.0",
     "typescript": "^4.9.3",
     "vite": "^4.1.0"
   }
