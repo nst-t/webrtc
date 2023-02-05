@@ -1,44 +1,38 @@
-import { useEffect, useRef } from 'react';
-import { ClientSDK, NstrumentaBrowserClient } from 'nstrumenta/dist/browser/client';
-
-class Client extends ClientSDK {
-  private readonly nstClient: NstrumentaBrowserClient;
-  roomName: string = 'room';
-
-  constructor() {
-    super();
-    this.nstClient = new NstrumentaBrowserClient();
-  }
-
-  async apiJoin() {
-    console.log('apiJoin');
-    await this.nstClient.connect();
-    const { offer, peerId } = await this.nstClient.joinWebRTC(this.roomName);
-    const { answer, candidates, user } = await this.join(this.roomName, peerId, offer);
-    user.onCandidate.subscribe((candidate) =>
-      this.nstClient.candidateWebRTC(peerId, this.roomName, candidate)
-    );
-    this.nstClient.answerWebRTC(peerId, this.roomName, answer);
-    candidates.forEach((candidate) =>
-      this.nstClient.candidateWebRTC(peerId, this.roomName, candidate)
-    );
-  }
-}
+import { useContext, useEffect, useState } from 'react';
+import { ClientContext } from './main';
+import { Box, Stack } from '@mui/material';
+import { Control } from './containers/control';
+import { LocalMedias } from './containers/local/medias';
+import { Mixers } from './containers/mcu/mixers';
+import { RemoteMedias } from './containers/remote/medias';
 
 function App() {
-  const clientRef = useRef<Client | null>(null);
+  const client = useContext(ClientContext);
+  const [peerId, setPeerId] = useState('');
+
+  const init = async () => {
+    client.apiJoin();
+
+    client.roomName = 'room';
+    console.log('roomName', client.roomName);
+    client.events.onConnect.subscribe(() => setPeerId(client.peerId!));
+  };
 
   useEffect(() => {
-    async function connectAndJoinWebRTC() {
-      const client = new Client();
-      await client.apiJoin();
-      clientRef.current = new Client();
-    }
-
-    connectAndJoinWebRTC();
+    init();
   }, []);
 
-  return <div className="App"></div>;
+  return (
+    <Box>
+      <span>peerId : {peerId}</span>
+      <Stack p={2}>
+        <Control />
+        <LocalMedias />
+        <RemoteMedias />
+        <Mixers />
+      </Stack>
+    </Box>
+  );
 }
 
 export default App;
