@@ -11,10 +11,7 @@ function App() {
   const [peerId, setPeerId] = useState('');
 
   const init = async () => {
-    client.apiJoin();
-
-    client.roomName = 'room';
-    console.log('roomName', client.roomName);
+    await client.apiJoin();
     client.events.onConnect.subscribe(() => setPeerId(client.peerId!));
   };
 
