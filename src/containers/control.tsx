@@ -18,12 +18,6 @@ export const Control: FC = () => {
     await client.publish({ track, simulcast, kind: track.kind as Kind });
   };
 
-  const publishFile = async (file: File) => {
-    const stream = await getAudioStream(await file.arrayBuffer(), 0.1);
-    const [track] = stream.getTracks();
-    await client.publish({ track, kind: track.kind as Kind });
-  };
-
   const publishDataChannel = async () => {
     await client.publish({ kind: 'application' });
   };
@@ -37,18 +31,6 @@ export const Control: FC = () => {
       <Stack direction="row" flexWrap="wrap">
         <Selector button="publish camera" onClick={(res) => publishMedia(res, { video: true })} />
         <Selector button="publish display" onClick={(res) => publishDisplay(res)} />
-        {/* <input
-          accept="image/*"
-          style={{ display: 'none' }}
-          id="raised-button-file"
-          multiple
-          type="file"
-          onSelect={publishFile}
-        /> */}
-        <label htmlFor="raised-button-file">
-          <Button component="span">Upload</Button>
-        </label>
-
         <Button onClick={() => publishMedia(false, { audio: true })}>publish audio</Button>
         <Button onClick={publishDataChannel}>publish datachannel</Button>
         <Button onClick={createMixer}>create Mixer</Button>
