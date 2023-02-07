@@ -11,10 +11,10 @@ export const Mixers: FC = () => {
   const [medias, setMedias] = useState<MediaInfo[]>([]);
 
   useEffect(() => {
-    client.events.onMixerCreated.subscribe((mcu) => {
-      mcu.onAdded.subscribe(() => {});
-      setMixers(client.mcu.mixers);
-    });
+    // client.events.onMixerCreated.subscribe((mcu) => {
+    //   mcu.onAdded.subscribe(() => {});
+    //   setMixers(client.mcu.mixers);
+    // });
     client.events.onConnect.once(() =>
       client.getMedias().then(() => setMedias(Object.values(client.medias)))
     );

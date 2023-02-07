@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "dev": "nodemon",
-    "serve": "CI=true npx http-server build/public --port=3000",
+    "serve": "CI=true npx http-server dist/public --port=3000",
     "start": "webpack serve --port 3000",
     "format": "prettier --write src/**/*.ts",
     "lint": "eslint src/**/*.ts --fix"

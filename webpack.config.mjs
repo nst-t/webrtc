@@ -9,7 +9,7 @@ const __dirname = 'dist';
 
 export default {
   mode: prod ? 'production' : 'development',
-  devtool: 'source-map',
+  devtool: 'eval-cheap-module-source-map',
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, './public'),
@@ -24,9 +24,6 @@ export default {
         test: /\.ts(x)?$/,
         use: {
           loader: 'ts-loader',
-          options: {
-            transpileOnly: true,
-          },
         },
       },
       {
@@ -44,7 +41,6 @@ export default {
     }),
   ],
   devServer: {
-    static: path.join(__dirname, './public'),
     open: false,
     hot: true,
   },

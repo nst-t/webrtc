@@ -12,11 +12,10 @@
             "skipFiles": [
                 "${workspaceFolder}/node_modules/**/*.js"
             ],
-            "webRoot": "${workspaceFolder}/src",
-            "resolveSourceMapLocations": [
-                "${workspaceFolder}/**",
-                "!**/node_modules/**"
-            ]
+            "env": {
+                "NODE_ENV": "development",
+            },
+            "webRoot": "${workspaceFolder}"
         }
     ]
 }
