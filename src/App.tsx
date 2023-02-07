@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { ClientContext } from './main';
+import { ClientContext } from '.';
 import { Box, Stack } from '@mui/material';
 import { Control } from './containers/control';
 import { LocalMedias } from './containers/local/medias';

@@ -1,7 +1,7 @@
 import { Box, Button, TextField } from '@mui/material';
 import { MediaInfo } from 'nstrumenta/dist/browser/client';
 import { ChangeEvent, FC, useContext, useState } from 'react';
-import { ClientContext } from '../../main';
+import { ClientContext } from '../..';
 
 export const LocalMedia: FC<{ info: MediaInfo }> = ({ info }) => {
   const client = useContext(ClientContext);

@@ -1,7 +1,7 @@
 import { Badge, Box } from '@mui/material';
 import { MCU, MediaInfo } from 'nstrumenta/dist/browser/client';
 import { FC, useContext, useEffect, useState } from 'react';
-import { ClientContext } from '../../main';
+import { ClientContext } from '../..';
 import { Mixer } from './mixer';
 
 export const Mixers: FC = () => {

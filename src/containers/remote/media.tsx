@@ -1,7 +1,7 @@
 import { Box, Button, Stack, TextField } from '@mui/material';
 import { MediaInfo, SubscriberType } from 'nstrumenta/dist/browser/client';
 import { FC, useContext, useEffect, useRef, useState } from 'react';
-import { ClientContext } from '../../main';
+import { ClientContext } from '../..';
 
 export const RemoteMedia: FC<{ info: MediaInfo }> = ({ info }) => {
   const [stream, setStream] = useState<MediaStream>();

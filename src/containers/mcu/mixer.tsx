@@ -1,7 +1,7 @@
 import { Box, Button, Stack, TextField } from '@mui/material';
 import { MCU, MediaInfo } from 'nstrumenta/dist/browser/client';
 import { FC, LegacyRef, useContext, useEffect, useRef, useState } from 'react';
-import { ClientContext } from '../../main';
+import { ClientContext } from '../..';
 
 export const Mixer: FC<{ medias: MediaInfo[]; mixer: MCU }> = ({ mixer, medias }) => {
   const client = useContext(ClientContext);

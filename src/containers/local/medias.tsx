@@ -1,7 +1,7 @@
 import { Badge, Box } from '@mui/material';
 import { MediaInfo } from 'nstrumenta/dist/browser/client';
 import { FC, useContext, useEffect, useState } from 'react';
-import { ClientContext } from '../../main';
+import { ClientContext } from '../..';
 import { LocalMedia } from './media';
 
 export const LocalMedias: FC = () => {

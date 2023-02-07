@@ -2,7 +2,7 @@ import { Button, Stack } from '@mui/material';
 import { Kind } from 'nstrumenta/dist/browser/client';
 import { FC, useContext } from 'react';
 import { Selector } from '../components/selector';
-import { ClientContext } from '../main';
+import { ClientContext } from '..';
 import { getAudioStream } from '../util';
 
 export const Control: FC = () => {

@@ -5,6 +5,9 @@ import react from '@vitejs/plugin-react-swc';
 export default defineConfig({
   server: { host: true, port: 3000 },
   preview: { port: 3000 },
+  optimizeDeps: {
+    exclude: ['nstrumenta'],
+  },
   plugins: [react()],
   base: '',
 });
