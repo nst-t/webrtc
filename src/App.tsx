@@ -12,7 +12,10 @@ function App() {
 
   const init = async () => {
     await client.apiJoin();
-    client.events.onConnect.subscribe(() => setPeerId(client.peerId!));
+    client.events.onConnect.subscribe(() => {
+      console.log('client onConnect', client);
+      setPeerId(client.peerId!);
+    });
   };
 
   useEffect(() => {
