@@ -10,7 +10,7 @@ export const LocalMedia: FC<{ info: MediaInfo }> = ({ info }) => {
   const [data, setData] = useState('');
   const onData = ({ target: { value } }: ChangeEvent<HTMLTextAreaElement>) => {
     setData(value);
-    client.sfu.getProducer(info.mediaId).sendData(value);
+    client.webrtcClient.sfu.getProducer(info.mediaId).sendData(value);
   };
 
   return (
@@ -25,7 +25,7 @@ export const LocalMedia: FC<{ info: MediaInfo }> = ({ info }) => {
           <TextField value={data} onChange={onData} />
         </Box>
       )}
-      <Button onClick={() => client.unPublish(info)}>un publish</Button>
+      <Button onClick={() => client.webrtcClient.unPublish(info)}>un publish</Button>
     </Box>
   );
 };

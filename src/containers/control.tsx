@@ -1,39 +1,33 @@
 import { Button, Stack } from '@mui/material';
 import { Kind } from 'nstrumenta/dist/browser/client';
 import { FC, useContext } from 'react';
-import { Selector } from '../components/selector';
 import { ClientContext } from '..';
-import { getAudioStream } from '../util';
+import { Selector } from '../components/selector';
 
 export const Control: FC = () => {
   const client = useContext(ClientContext);
 
-  const publishMedia = async (simulcast: boolean, constraints: MediaStreamConstraints) => {
+  const publishMedia = async (constraints: MediaStreamConstraints) => {
     const [track] = (await navigator.mediaDevices.getUserMedia(constraints)).getTracks();
-    await client.publish({ track, simulcast, kind: track.kind as Kind });
+    await client.webrtcPublish({ track, kind: track.kind as Kind })
   };
 
-  const publishDisplay = async (simulcast: boolean) => {
+  const publishDisplay = async () => {
     const [track] = (await (navigator.mediaDevices as any).getDisplayMedia()).getTracks();
-    await client.publish({ track, simulcast, kind: track.kind as Kind });
+    await client.webrtcClient.publish({ track, simulcast: false, kind: track.kind as Kind });
   };
 
   const publishDataChannel = async () => {
-    await client.publish({ kind: 'application' });
-  };
-
-  const createMixer = () => {
-    client.listenMixedAudio([]);
+    await client.webrtcClient.publish({ kind: 'application' });
   };
 
   return (
     <div>
       <Stack direction="row" flexWrap="wrap">
-        <Selector button="publish camera" onClick={(res) => publishMedia(res, { video: true })} />
-        <Selector button="publish display" onClick={(res) => publishDisplay(res)} />
-        <Button onClick={() => publishMedia(false, { audio: true })}>publish audio</Button>
+        <Selector button="publish camera" onClick={() => publishMedia({ video: true })} />
+        <Selector button="publish display" onClick={() => publishDisplay()} />
+        <Button onClick={() => publishMedia({ audio: true })}>publish audio</Button>
         <Button onClick={publishDataChannel}>publish datachannel</Button>
-        <Button onClick={createMixer}>create Mixer</Button>
       </Stack>
     </div>
   );

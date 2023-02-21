@@ -10,24 +10,27 @@ export const RemoteMedia: FC<{ info: MediaInfo }> = ({ info }) => {
   const client = useContext(ClientContext);
 
   useEffect(() => {
-    client.events.onTrack.subscribe((stream, { mediaId }) => {
+    client.webrtcClient.events.onTrack.subscribe((stream, { mediaId }) => {
       if (mediaId !== info.mediaId) return;
+      //@ts-ignore
       videoRef.current!.srcObject = stream;
+
+      //@ts-ignore
       setStream(stream);
     });
-    client.events.onUnsubscribe.subscribe(({ mediaId }) => {
+    client.webrtcClient.events.onUnsubscribe.subscribe(({ mediaId }) => {
       if (mediaId !== info.mediaId) return;
       setStream(undefined);
     });
   }, []);
 
   const changeQuality = (info: MediaInfo, type: SubscriberType) => {
-    client.changeQuality(info, type);
+    client.webrtcClient.changeQuality(info, type);
   };
 
   const subscribe = async () => {
-    await client.subscribe([info]);
-    client.sfu.getConsumer(info.mediaId).onMessage.subscribe((data) => setData(data));
+    await client.webrtcClient.subscribe([info]);
+    client.webrtcClient.sfu.getConsumer(info.mediaId).onMessage.subscribe((data) => setData(data));
   };
 
   return (
@@ -41,7 +44,7 @@ export const RemoteMedia: FC<{ info: MediaInfo }> = ({ info }) => {
         <Button onClick={subscribe} disabled={!!stream}>
           subscribe
         </Button>
-        <Button onClick={() => client.unsubscribe(info)} disabled={!stream}>
+        <Button onClick={() => client.webrtcClient.unsubscribe(info)} disabled={!stream}>
           unsubscribe
         </Button>
       </Stack>
