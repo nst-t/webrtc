@@ -9,16 +9,16 @@ export const RemoteMedias: FC = () => {
 
   const client = useContext(ClientContext);
 
+  const updateMedias = async () => {
+    const medias = await client.webrtcClient.getMedias();
+    console.log('updateMedias', medias);
+    setMedias(medias);
+  };
+
   useEffect(() => {
-    client.events.onConnect.once(() =>
-      client.getMedias().then(() => setMedias(Object.values(client.medias)))
-    );
-    client.events.onPublish.subscribe(() => {
-      setMedias(Object.values(client.medias));
-    });
-    client.events.onUnPublish.subscribe(() => {
-      setMedias(Object.values(client.medias));
-    });
+    client.webrtcClient.events.onConnect.subscribe(updateMedias);
+    client.webrtcClient.events.onPublish.subscribe(updateMedias);
+    client.webrtcClient.events.onUnPublish.subscribe(updateMedias);
   }, []);
 
   return (
