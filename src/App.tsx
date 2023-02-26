@@ -11,11 +11,11 @@ function App() {
 
   const init = async () => {
     await client.connect();
-    const { offer, peerId } = await client.webrtcJoin();
+    const { offer, peerId } = await client.joinWebRTC('room');
     setPeerId(peerId);
     const { answer, candidates, user } = await client.webrtcClient.join(peerId, offer);
-    client.webrtcAnswer(peerId, answer);
-    candidates.forEach((candidate) => client.webrtcCandidate(peerId, candidate));
+    client.answerWebRTC(peerId, 'room', answer);
+    candidates.forEach((candidate) => client.candidateWebRTC(peerId, 'room', candidate));
   };
 
   useEffect(() => {

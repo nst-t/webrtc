@@ -9,10 +9,6 @@ export const LocalMedias: FC = () => {
   const [published, setPublished] = useState<MediaInfo[]>([]);
 
   useEffect(() => {
-    client.addListener('webrtcPublish',()=>{
-      console.log('webrtcPublish event'),
-      setPublished(client.webrtcClient.user!.published);
-    })
     client.webrtcClient.events.onPublish.subscribe(() => {
       setPublished(client.webrtcClient.user!.published);
     });

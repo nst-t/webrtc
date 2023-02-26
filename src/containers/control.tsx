@@ -9,7 +9,7 @@ export const Control: FC = () => {
 
   const publishMedia = async (constraints: MediaStreamConstraints) => {
     const [track] = (await navigator.mediaDevices.getUserMedia(constraints)).getTracks();
-    await client.webrtcPublish({ track, kind: track.kind as Kind })
+    await client.webrtcClient.publish({ track, kind: track.kind as Kind });
   };
 
   const publishDisplay = async () => {
