@@ -1,4 +1,4 @@
-import { Box, Button, Stack, TextField } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { MediaInfo, SubscriberType } from 'nstrumenta/dist/browser/client';
 import { FC, useContext, useEffect, useRef, useState } from 'react';
 import { ClientContext } from '../..';
@@ -36,9 +36,9 @@ export const RemoteMedia: FC<{ info: MediaInfo }> = ({ info }) => {
   return (
     <Box padding={1}>
       {Object.entries(info).map(([k, v]) => (
-        <TextField key={k}>
+        <Typography key={k}>
           {k} : {v.toString()}
-        </TextField>
+        </Typography>
       ))}
       <Stack direction="row" p={1}>
         <Button onClick={subscribe} disabled={!!stream}>
@@ -67,7 +67,7 @@ export const RemoteMedia: FC<{ info: MediaInfo }> = ({ info }) => {
         />
       ) : (
         <Box>
-          <TextField>{data}</TextField>
+          <Typography>{data}</Typography>
         </Box>
       )}
     </Box>
