@@ -13,7 +13,7 @@ function App() {
     await client.connect();
     const { offer, peerId } = await client.joinWebRTC('room');
     setPeerId(peerId);
-    const { answer, candidates, user } = await client.webrtcClient.join(peerId, offer);
+    const { answer, candidates, user } = await client.webrtcClient!.join(peerId, offer);
     client.answerWebRTC(peerId, 'room', answer);
     candidates.forEach((candidate) => client.candidateWebRTC(peerId, 'room', candidate));
   };
